@@ -26,7 +26,7 @@ FileViewEntryPlugin is a **Filament plugin** that provides a custom Infolist ent
 
 ```
 FileViewEntryPlugin/
-├── src/
+├── src/                                     # Source code
 │   ├── FileViewEntryPlugin.php              # Plugin class
 │   ├── FileViewEntryPluginServiceProvider.php # Service provider
 │   └── Infolists/
@@ -37,7 +37,20 @@ FileViewEntryPlugin/
 │       └── infolists/
 │           └── components/
 │               └── file-view-entry.blade.php # Blade view
+├── tests/                                   # Test suite
+│   ├── TestCase.php                         # Base test class
+│   └── Unit/
+│       └── FileViewEntryTest.php            # Component tests
+├── .github/
+│   └── workflows/
+│       ├── tests.yml                        # CI test workflow
+│       └── pint.yml                         # Code style workflow
 ├── composer.json
+├── phpunit.xml                              # PHPUnit configuration
+├── pint.json                                # Laravel Pint configuration
+├── CHANGELOG.md                             # Version history
+├── CONTRIBUTING.md                          # Contribution guidelines
+├── SECURITY.md                              # Security policy
 ├── README.md
 └── AGENTS.md (this file)
 ```
@@ -161,7 +174,25 @@ Card styling:
 Run tests with:
 
 ```bash
-composer test
+vendor/bin/pest
+```
+
+Run tests with coverage:
+
+```bash
+vendor/bin/pest --coverage
+```
+
+Run code style checks with:
+
+```bash
+vendor/bin/pint --test
+```
+
+Fix code style issues with:
+
+```bash
+vendor/bin/pint
 ```
 
 ---

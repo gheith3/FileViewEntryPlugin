@@ -159,10 +159,10 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 
 ## Credits
 
-- Created by [Your Name](https://github.com/yourusername)
+- Created by [Gheith](https://github.com/gheith3)
 - Inspired by the Filament community
 
 ## Support
 
-- 🐛 [Report Issues](https://github.com/gheith3/filament-file-view-entry/issues)
-- 💡 [Request Features](https://github.com/gheith3/filament-file-view-entry/discussions)
+- 🐛 [Report Issues](https://github.com/gheith3/FileViewEntryPlugin/issues)
+- 💡 [Request Features](https://github.com/gheith3/FileViewEntryPlugin/discussions)

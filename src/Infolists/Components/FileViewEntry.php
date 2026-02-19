@@ -10,81 +10,81 @@ class FileViewEntry extends Entry
 {
     protected string $view = 'file-view-entry-plugin::infolists.components.file-view-entry';
 
-    protected bool | Closure $showAsLink = false;
+    protected bool|Closure $showAsLink = false;
 
-    protected bool | Closure $showPreview = true;
+    protected bool|Closure $showPreview = true;
 
-    protected bool | Closure $downloadable = false;
+    protected bool|Closure $downloadable = false;
 
-    protected int | string | Closure | null $previewHeight = null;
+    protected int|string|Closure|null $previewHeight = null;
 
-    protected string | Closure | null $diskName = null;
+    protected string|Closure|null $diskName = null;
 
-    protected int | Closure | null $gridColumns = null;
+    protected int|Closure|null $gridColumns = null;
 
-    protected string | Closure $titleKey = 'name';
+    protected string|Closure $titleKey = 'name';
 
-    protected string | Closure $pathKey = 'file_path';
+    protected string|Closure $pathKey = 'file_path';
 
-    protected string | Closure | null $dateKey = null;
+    protected string|Closure|null $dateKey = null;
 
-    public function showAsLink(bool | Closure $condition = true): static
+    public function showAsLink(bool|Closure $condition = true): static
     {
         $this->showAsLink = $condition;
 
         return $this;
     }
 
-    public function showPreview(bool | Closure $condition = true): static
+    public function showPreview(bool|Closure $condition = true): static
     {
         $this->showPreview = $condition;
 
         return $this;
     }
 
-    public function downloadable(bool | Closure $condition = true): static
+    public function downloadable(bool|Closure $condition = true): static
     {
         $this->downloadable = $condition;
 
         return $this;
     }
 
-    public function previewHeight(int | string | Closure | null $height): static
+    public function previewHeight(int|string|Closure|null $height): static
     {
         $this->previewHeight = $height;
 
         return $this;
     }
 
-    public function disk(string | Closure | null $disk): static
+    public function disk(string|Closure|null $disk): static
     {
         $this->diskName = $disk;
 
         return $this;
     }
 
-    public function grid(int | Closure | null $columns): static
+    public function grid(int|Closure|null $columns): static
     {
         $this->gridColumns = $columns;
 
         return $this;
     }
 
-    public function titleKey(string | Closure $key): static
+    public function titleKey(string|Closure $key): static
     {
         $this->titleKey = $key;
 
         return $this;
     }
 
-    public function pathKey(string | Closure $key): static
+    public function pathKey(string|Closure $key): static
     {
         $this->pathKey = $key;
 
         return $this;
     }
 
-    public function dateKey(string | Closure | null $key): static
+    public function dateKey(string|Closure|null $key): static
     {
         $this->dateKey = $key;
 
@@ -135,6 +135,7 @@ class FileViewEntry extends Entry
     public function getGridColumns(): ?int
     {
         $columns = $this->evaluate($this->gridColumns);
+
         return $columns !== null ? (int) $columns : null;
     }
 
@@ -151,6 +152,7 @@ class FileViewEntry extends Entry
     public function getDateKey(): ?string
     {
         $key = $this->evaluate($this->dateKey);
+
         return $key !== null ? (string) $key : null;
     }
 

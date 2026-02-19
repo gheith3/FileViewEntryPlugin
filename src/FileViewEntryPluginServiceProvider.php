@@ -13,10 +13,10 @@ class FileViewEntryPluginServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'file-view-entry-plugin');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'file-view-entry-plugin');
 
         $this->publishes([
-            __DIR__ . '/../resources/views' => resource_path('views/vendor/file-view-entry-plugin'),
+            __DIR__.'/../resources/views' => resource_path('views/vendor/file-view-entry-plugin'),
         ], 'file-view-entry-plugin-views');
     }
 }

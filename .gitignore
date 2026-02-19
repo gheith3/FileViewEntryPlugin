@@ -1,1 +1,14 @@
-/TODO.md
+/vendor/
+/composer.lock
+/.phpunit.result.cache
+/.php-cs-fixer.cache
+/.idea/
+/.vscode/
+/.env
+/.env.local
+/phpunit.xml.dist.bak
+/coverage/
+/.DS_Store
+/node_modules/
+/npm-debug.log
+/yarn-error.log
