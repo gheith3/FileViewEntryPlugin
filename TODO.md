@@ -29,7 +29,7 @@ This file tracks tasks to complete before and after moving the plugin to a separ
 - [x] Update README.md links (GitHub URLs)
 
 ### Documentation
-- [ ] Add screenshot.png to README.md (create actual screenshot)
+- [x] Add screenshots to README.md
 - [x] Review and update AGENTS.md for accuracy
 
 ---
@@ -95,6 +95,11 @@ This file tracks tasks to complete before and after moving the plugin to a separ
 ### Distribution
 - [x] Submit to Packagist
 - [ ] Add to Filament Plugin Directory (https://filamentphp.com/plugins)
+  - [ ] Create plugin screenshot (2560x1440px, 16:9, JPEG)
+  - [ ] Fork filamentphp.com repository
+  - [ ] Create content/plugins/gheith3-file-view-entry.md
+  - [ ] Add image to public/images/content/plugins/
+  - [ ] Submit Pull Request
 - [ ] Create demo project repository
 
 ### Community

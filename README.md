@@ -2,7 +2,9 @@
 
 A Filament plugin that provides a beautiful file attachment viewer for Infolists with type-specific icons, modal previews, and responsive grid layout.
 
-![Screenshot](screenshot.png)
+<p align="center">
+  <img src="screenshots/gheith3-file-view-entry.jpg" alt="File View Entry - Grid Layout with File Type Icons" width="100%">
+</p>
 
 ## Features
 
@@ -135,6 +137,28 @@ php artisan vendor:publish --tag=file-view-entry-plugin-views
 ```
 
 Edit `resources/views/vendor/file-view-entry-plugin/infolists/components/file-view-entry.blade.php`
+
+## Screenshots
+
+### Grid Layout with File Type Icons
+<p align="center">
+  <img src="screenshots/1.png" alt="File View Entry - Grid Layout" width="100%">
+</p>
+
+### Modal Preview - Image
+<p align="center">
+  <img src="screenshots/2.png" alt="Image Preview Modal" width="100%">
+</p>
+
+### Modal Preview - Text Files
+<p align="center">
+  <img src="screenshots/3.png" alt="Text File Preview Modal" width="100%">
+</p>
+
+### Modal Preview - Audio
+<p align="center">
+  <img src="screenshots/4.png" alt="Audio Preview Modal" width="100%">
+</p>
 
 ## Supported File Types
 
