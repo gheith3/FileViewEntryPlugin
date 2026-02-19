@@ -219,7 +219,7 @@ vendor/bin/pint
 
 ## Dependencies
 
-- PHP ^8.1
+- PHP ^8.2|^8.3|^8.4
 - Filament ^4.0
-- Laravel ^10.0|^11.0|^12.0
+- Laravel ^11.0|^12.0
 - Alpine.js (included with Filament)
