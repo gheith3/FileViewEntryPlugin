@@ -59,15 +59,13 @@ npm run dev
 ```php
 use gheith3\FileViewEntryPlugin\Infolists\Components\FileViewEntry;
 
-// Single file
+// Single file - opens in modal when clicked
 FileViewEntry::make('file_path')
-    ->showPreview()
     ->downloadable();
 
-// Multiple files in grid
+// Multiple files in grid layout
 FileViewEntry::make('attachments')
     ->grid(4)
-    ->showPreview()
     ->downloadable();
 ```
 
@@ -83,7 +81,6 @@ FileViewEntry::make('documents')
     ->titleKey('title')        // Default: 'name'
     ->pathKey('path')          // Default: 'file_path'
     ->dateKey('uploaded_at')   // Default: null (hidden)
-    ->showPreview()
     ->downloadable();
 ```
 
@@ -97,9 +94,9 @@ FileViewEntry::make('documents')
 | `dateKey(?string $key)`              | Key for date (null to hide)             |
 | `asModal(bool $enabled)`             | Show content in modal (default: true)   |
 | `withModalEye(bool $enabled)`         | Add eye button for modal preview when asModal(false) |
+| `showAsLink(bool $enabled)`          | Show as compact list (default: false)   |
 | `disk(string $disk)`                 | Storage disk name                       |
 | `downloadable(bool $enabled)`        | Show download button                    |
-| `showAsLink(bool $enabled)`          | Show as compact list with modal preview |
 | `previewHeight(int\|string $height)` | Modal height (default: 300px)           |
 
 ### Grid Columns Reference
@@ -126,7 +123,6 @@ public static function infolist(Infolist $infolist): Infolist
             FileViewEntry::make('uploadedFiles') // relationship name
                 ->label('Attachments')
                 ->grid(6)
-                ->showPreview()
                 ->downloadable(),
         ]);
 }
@@ -146,18 +142,39 @@ FileViewEntry::make('customData')
     ->grid(2);
 ```
 
-### Display Content Inline (No Modal)
+### Display Modes
+
+The plugin supports three display modes:
+
+#### 1. Card Grid (Default)
+Files displayed as cards in a grid. Click to open modal.
 
 ```php
-// Show files directly on the page instead of in a modal
+FileViewEntry::make('attachments')
+    ->grid(4)
+    ->downloadable();
+```
+
+#### 2. Compact List
+Files displayed as a simple list (icon + filename). Click to open modal.
+
+```php
+FileViewEntry::make('attachments')
+    ->showAsLink(true)         // Compact list view
+    ->downloadable();
+```
+
+#### 3. Inline Display
+Files displayed directly on the page with full preview.
+
+```php
 FileViewEntry::make('attachments')
     ->asModal(false)           // Display content inline
     ->downloadable()
     ->grid(2);
 ```
 
-### Inline with Modal Preview Button
-
+#### 4. Inline with Modal Preview Button
 When using `asModal(false)`, you can add an eye button that opens a modal preview:
 
 ```php
