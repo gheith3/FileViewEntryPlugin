@@ -7,6 +7,7 @@
         $showAsLink = $shouldShowAsLink();
         $asModal = $shouldShowAsModal();
         $withModalEye = $shouldShowWithModalEye();
+        $contained = $isContained();
         $downloadable = $isDownloadable();
         $height = $getPreviewHeight();
         $gridColumns = $getGridColumns();
@@ -106,7 +107,12 @@
                                 class="group cursor-pointer"
                             >
                                 <div 
-                                    class="flex items-center gap-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800 hover:bg-primary-50 dark:hover:bg-primary-900/20 border border-gray-200 dark:border-gray-700 hover:border-primary-200 dark:hover:border-primary-800 transition-all"
+                                    @class([
+                                        'flex items-center gap-3 p-3 rounded-lg transition-all',
+                                        'bg-gray-50 dark:bg-gray-800 hover:bg-primary-50 dark:hover:bg-primary-900/20 border border-gray-200 dark:border-gray-700 hover:border-primary-200 dark:hover:border-primary-800' => $contained,
+                                        'hover:text-primary-500' => !$contained,
+                                    ])
+                                    
                                     x-on:click="open = true"
                                 >
                                     {{-- Icon --}}
@@ -275,7 +281,12 @@
                             <a 
                                 href="{{ $fileUrl }}"
                                 target="_blank"
-                                class="group flex items-center gap-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-800 hover:bg-primary-50 dark:hover:bg-primary-900/20 border border-gray-200 dark:border-gray-700 hover:border-primary-200 dark:hover:border-primary-800 transition-all"
+                                @class([
+                                    'group flex items-center gap-3 p-3 rounded-lg transition-all',
+                                    'bg-gray-50 dark:bg-gray-800 hover:bg-primary-50 dark:hover:bg-primary-900/20 border border-gray-200 dark:border-gray-700 hover:border-primary-200 dark:hover:border-primary-800' => $contained,
+                                    'hover:text-primary-500' => !$contained,
+                                ])
+                                
                             >
                                 {{-- Icon --}}
                                 @svg($fileIcon, 'w-5 h-5 text-gray-400 group-hover:text-primary-500 flex-shrink-0')
@@ -295,7 +306,12 @@
                                     class="group cursor-pointer"
                                 >
                                     <div 
-                                        class="w-full aspect-square p-4 rounded-2xl bg-gray-50 dark:bg-gray-800 hover:bg-primary-50 dark:hover:bg-primary-900/20 border border-gray-200 dark:border-gray-700 hover:border-primary-200 dark:hover:border-primary-800 transition-all flex flex-col items-center justify-center text-center"
+                                        @class([
+                                            'w-full aspect-square p-4 rounded-2xl transition-all flex flex-col items-center justify-center text-center',
+                                            'bg-gray-50 dark:bg-gray-800 hover:bg-primary-50 dark:hover:bg-primary-900/20 border border-gray-200 dark:border-gray-700 hover:border-primary-200 dark:hover:border-primary-800' => $contained,
+                                            'hover:text-primary-500' => !$contained,
+                                        ])
+                                        
                                         x-on:click="open = true"
                                     >
                                         {{-- Icon at top --}}
@@ -465,10 +481,17 @@
                             {{-- Show content directly inline --}}
                             <div 
                                 @if($withModalEye && $canPreview) x-data="{ open: false }" @endif
-                                class="w-full rounded-2xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 overflow-hidden"
+                                @class([
+                                    'w-full rounded-2xl overflow-hidden',
+                                    'bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700' => $contained,
+                                ])
+                                
                             >
                                     {{-- Title header --}}
-                                    <div class="px-4 py-3 border-b border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-700">
+                                    <div @class([
+                                        'px-4 py-3',
+                                        'border-b border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-700' => $contained,
+                                    ])>
                                         <div class="flex items-center justify-between">
                                             <div class="flex items-center gap-2 min-w-0">
                                                 @svg($fileIcon, 'w-5 h-5 text-gray-500 flex-shrink-0')
@@ -718,7 +741,10 @@
                                 </div>
                             @endif
                     @else
-                        <div class="w-full aspect-square p-4 rounded-2xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex flex-col items-center justify-center text-center">
+                        <div @class([
+                            'w-full aspect-square p-4 rounded-2xl flex flex-col items-center justify-center text-center',
+                            'bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700' => $contained,
+                        ])>
                             @svg('heroicon-o-document', 'w-12 h-12 text-danger-500 mb-2')
                             <span class="text-sm text-danger-600 truncate w-full">{{ $fileTitle }}</span>
                             <span class="text-xs text-gray-500 mt-1">@lang('File not found')</span>

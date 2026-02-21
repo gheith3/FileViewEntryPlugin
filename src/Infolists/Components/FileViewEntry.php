@@ -16,6 +16,8 @@ class FileViewEntry extends Entry
 
     protected bool|Closure $withModalEye = false;
 
+    protected bool|Closure $contained = true;
+
     protected bool|Closure $downloadable = false;
 
     protected int|string|Closure|null $previewHeight = null;
@@ -47,6 +49,13 @@ class FileViewEntry extends Entry
     public function withModalEye(bool|Closure $condition = true): static
     {
         $this->withModalEye = $condition;
+
+        return $this;
+    }
+
+    public function contained(bool|Closure $condition = true): static
+    {
+        $this->contained = $condition;
 
         return $this;
     }
@@ -113,6 +122,11 @@ class FileViewEntry extends Entry
     public function shouldShowWithModalEye(): bool
     {
         return (bool) $this->evaluate($this->withModalEye);
+    }
+
+    public function isContained(): bool
+    {
+        return (bool) $this->evaluate($this->contained);
     }
 
     public function isDownloadable(): bool

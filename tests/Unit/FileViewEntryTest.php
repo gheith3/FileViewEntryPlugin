@@ -171,3 +171,23 @@ it('can disable withModalEye explicitly', function () {
 
     expect($entry->shouldShowWithModalEye())->toBeFalse();
 });
+
+it('has default contained set to true', function () {
+    $entry = FileViewEntry::make('files');
+
+    expect($entry->isContained())->toBeTrue();
+});
+
+it('can disable contained', function () {
+    $entry = FileViewEntry::make('files')
+        ->contained(false);
+
+    expect($entry->isContained())->toBeFalse();
+});
+
+it('can enable contained explicitly', function () {
+    $entry = FileViewEntry::make('files')
+        ->contained(true);
+
+    expect($entry->isContained())->toBeTrue();
+});

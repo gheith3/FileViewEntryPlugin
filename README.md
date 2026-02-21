@@ -95,6 +95,7 @@ FileViewEntry::make('documents')
 | `asModal(bool $enabled)`             | Show content in modal (default: true)   |
 | `withModalEye(bool $enabled)`         | Add eye button for modal preview when asModal(false) |
 | `showAsLink(bool $enabled)`          | Show as compact list (default: false)   |
+| `contained(bool $enabled)`           | Show background/border (default: true)  |
 | `disk(string $disk)`                 | Storage disk name                       |
 | `downloadable(bool $enabled)`        | Show download button                    |
 | `previewHeight(int\|string $height)` | Modal height (default: 300px)           |
@@ -186,6 +187,17 @@ FileViewEntry::make('attachments')
 ```
 
 This shows the file content directly on the page, but adds an 👁️ (eye) icon next to the download button. Clicking the eye opens the file in a modal for larger preview.
+
+#### 5. Remove Background and Border
+Use `contained(false)` to remove the background and border from cards:
+
+```php
+FileViewEntry::make('attachments')
+    ->contained(false)         // Remove background/border
+    ->grid(4);
+```
+
+This is useful when you want a cleaner look or when nesting inside other containers.
 
 ## Customization
 
