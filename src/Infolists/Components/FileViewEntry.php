@@ -309,17 +309,17 @@ class FileViewEntry extends Entry
     public function getFileIcon(string $fileType, ?string $extension = null): string
     {
         $customIcons = $this->getCustomIcons();
-        
+
         // Check for custom icon by extension first
         if ($extension && isset($customIcons[$extension])) {
             return $customIcons[$extension];
         }
-        
+
         // Check for custom icon by file type
         if (isset($customIcons[$fileType])) {
             return $customIcons[$fileType];
         }
-        
+
         return match ($fileType) {
             'image' => 'heroicon-o-photo',
             'video' => 'heroicon-o-video-camera',
@@ -355,6 +355,6 @@ class FileViewEntry extends Entry
             $unitIndex++;
         }
 
-        return round($bytes, 2) . ' ' . $units[$unitIndex];
+        return round($bytes, 2).' '.$units[$unitIndex];
     }
 }
