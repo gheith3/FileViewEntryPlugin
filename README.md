@@ -99,7 +99,7 @@ FileViewEntry::make('documents')
 | `withModalEye(bool $enabled)`         | Add eye button for modal preview when asModal(false) |
 | `disk(string $disk)`                 | Storage disk name                       |
 | `downloadable(bool $enabled)`        | Show download button                    |
-| `showAsLink(bool $enabled)`          | Show as simple link (no preview)        |
+| `showAsLink(bool $enabled)`          | Show as compact list with modal preview |
 | `previewHeight(int\|string $height)` | Modal height (default: 300px)           |
 
 ### Grid Columns Reference
