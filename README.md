@@ -96,6 +96,7 @@ FileViewEntry::make('documents')
 | `pathKey(string $key)`               | Key for file path                       |
 | `dateKey(?string $key)`              | Key for date (null to hide)             |
 | `asModal(bool $enabled)`             | Show content in modal (default: true)   |
+| `withModalEye(bool $enabled)`         | Add eye button for modal preview when asModal(false) |
 | `disk(string $disk)`                 | Storage disk name                       |
 | `showPreview(bool $enabled)`         | Enable/disable modal preview            |
 | `downloadable(bool $enabled)`        | Show download button                    |
@@ -155,6 +156,21 @@ FileViewEntry::make('attachments')
     ->downloadable()
     ->grid(2);
 ```
+
+### Inline with Modal Preview Button
+
+When using `asModal(false)`, you can add an eye button that opens a modal preview:
+
+```php
+FileViewEntry::make('attachments')
+    ->asModal(false)           // Display content inline
+    ->withModalEye(true)       // Add eye button for modal preview
+    ->showPreview()
+    ->downloadable()
+    ->grid(2);
+```
+
+This shows the file content directly on the page, but adds an 👁️ (eye) icon next to the download button. Clicking the eye opens the file in a modal for larger preview.
 
 ## Customization
 

@@ -158,3 +158,25 @@ it('can enable asModal explicitly', function () {
 
     expect($entry->shouldShowAsModal())->toBeTrue();
 });
+
+it('has default withModalEye set to false', function () {
+    $entry = FileViewEntry::make('files');
+
+    expect($entry->shouldShowWithModalEye())->toBeFalse();
+});
+
+it('can enable withModalEye', function () {
+    $entry = FileViewEntry::make('files')
+        ->asModal(false)
+        ->withModalEye(true);
+
+    expect($entry->shouldShowAsModal())->toBeFalse()
+        ->and($entry->shouldShowWithModalEye())->toBeTrue();
+});
+
+it('can disable withModalEye explicitly', function () {
+    $entry = FileViewEntry::make('files')
+        ->withModalEye(false);
+
+    expect($entry->shouldShowWithModalEye())->toBeFalse();
+});
