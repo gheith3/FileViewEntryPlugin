@@ -282,9 +282,9 @@
                                 href="{{ $fileUrl }}"
                                 target="_blank"
                                 @class([
-                                    'group flex items-center gap-3 p-3 rounded-lg transition-all',
-                                    'bg-gray-50 dark:bg-gray-800 hover:bg-primary-50 dark:hover:bg-primary-900/20 border border-gray-200 dark:border-gray-700 hover:border-primary-200 dark:hover:border-primary-800' => $contained,
-                                    'hover:text-primary-500' => !$contained,
+                                    'group flex items-center gap-3 rounded-lg transition-all',
+                                    'p-3 bg-gray-50 dark:bg-gray-800 hover:bg-primary-50 dark:hover:bg-primary-900/20 border border-gray-200 dark:border-gray-700 hover:border-primary-200 dark:hover:border-primary-800' => $contained,
+                                    'p-0 hover:text-primary-500' => !$contained,
                                 ])
                                 
                             >
