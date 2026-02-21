@@ -8,6 +8,10 @@
         $asModal = $shouldShowAsModal();
         $withModalEye = $shouldShowWithModalEye();
         $contained = $isContained();
+        $lazyLoad = $shouldLazyLoad();
+        $showFileSize = $shouldShowFileSize();
+        $showFileCount = $shouldShowFileCount();
+        $loadingSkeleton = $shouldShowLoadingSkeleton();
         $downloadable = $isDownloadable();
         $height = $getPreviewHeight();
         $gridColumns = $getGridColumns();
@@ -64,10 +68,33 @@
             }
             return $default;
         };
+        
+        // Helper to get file size
+        $getFileSize = function($path) use ($entry) {
+            return $entry->getFileSize($path);
+        };
+        };
     @endphp
 
     <div {{ $getExtraAttributeBag()->class(['fi-in-file-view w-full']) }}>
-        @if($fileCount > 0)
+        {{-- File count badge --}}
+        @if($showFileCount && $fileCount > 0)
+            <div class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                {{ $fileCount }} {{ $fileCount === 1 ? __('file') : __('files') }}
+            </div>
+        @endif
+        
+        {{-- Loading skeleton --}}
+        @if($loadingSkeleton && empty($files))
+            <div class="grid {{ $gridClass }} gap-4 w-full">
+                @for($i = 0; $i < 4; $i++)
+                    <div class="w-full aspect-square p-4 rounded-2xl bg-gray-100 dark:bg-gray-800 animate-pulse">
+                        <div class="w-12 h-12 mx-auto mb-4 bg-gray-200 dark:bg-gray-700 rounded"></div>
+                        <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mx-auto"></div>
+                    </div>
+                @endfor
+            </div>
+        @elseif($fileCount > 0)
             <div class="grid {{ $gridClass }} gap-4 w-full">
                 @foreach($files as $index => $file)
                     @php
@@ -86,6 +113,7 @@
                         $fileType = $filePath ? $getFileType($filePath) : 'other';
                         $fileIcon = $getFileIcon($fileType);
                         $canPreview = $filePath ? $canPreviewInBrowser($filePath) : false;
+                        $fileSize = ($showFileSize && $filePath) ? $getFileSize($filePath) : null;
                         $modalId = 'file-preview-modal-' . $entry->getName() . '-' . $index;
                         
                         // Format date (only if dateKey is set)
@@ -121,9 +149,11 @@
                                     {{-- Filename --}}
                                     <span class="text-sm font-medium text-gray-900 dark:text-white truncate flex-1">{{ $fileTitle }}</span>
                                     
-                                    @if($displayDate)
-                                        {{-- Date --}}
-                                        <span class="text-xs text-gray-500 dark:text-gray-400 flex-shrink-0">{{ $displayDate }}</span>
+                                    @if($displayDate || $fileSize)
+                                        {{-- Date and/or Size --}}
+                                        <span class="text-xs text-gray-500 dark:text-gray-400 flex-shrink-0">
+                                            {{ $displayDate }}{{ $displayDate && $fileSize ? ' · ' : '' }}{{ $fileSize }}
+                                        </span>
                                     @endif
                                 </div>
 
@@ -185,6 +215,7 @@
                                                                 src="{{ $fileUrl }}" 
                                                                 alt="{{ $fileTitle }}"
                                                                 class="w-full h-auto object-contain bg-gray-100 dark:bg-gray-800"
+                                                                @if($lazyLoad) loading="lazy" @endif
                                                             />
                                                             @break
                                                         
@@ -294,9 +325,11 @@
                                 {{-- Filename --}}
                                 <span class="text-sm font-medium text-gray-900 dark:text-white truncate flex-1">{{ $fileTitle }}</span>
                                 
-                                @if($displayDate)
-                                    {{-- Date --}}
-                                    <span class="text-xs text-gray-500 dark:text-gray-400 flex-shrink-0">{{ $displayDate }}</span>
+                                @if($displayDate || $fileSize)
+                                    {{-- Date and/or Size --}}
+                                    <span class="text-xs text-gray-500 dark:text-gray-400 flex-shrink-0">
+                                        {{ $displayDate }}{{ $displayDate && $fileSize ? ' · ' : '' }}{{ $fileSize }}
+                                    </span>
                                 @endif
                             </a>
                         @elseif($asModal)
@@ -322,9 +355,11 @@
                                         {{-- Filename --}}
                                         <span class="text-sm font-medium text-gray-900 dark:text-white truncate w-full mt-2">{{ $fileTitle }}</span>
                                         
-                                        @if($displayDate)
-                                            {{-- Date --}}
-                                            <span class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ $displayDate }}</span>
+                                        @if($displayDate || $fileSize)
+                                            {{-- Date and/or Size --}}
+                                            <span class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                                                {{ $displayDate }}{{ $displayDate && $fileSize ? ' · ' : '' }}{{ $fileSize }}
+                                            </span>
                                         @endif
                                     </div>
 
@@ -522,8 +557,10 @@
                                                 @endif
                                             </div>
                                         </div>
-                                        @if($displayDate)
-                                            <span class="text-xs text-gray-500 dark:text-gray-400 mt-1 block">{{ $displayDate }}</span>
+                                        @if($displayDate || $fileSize)
+                                            <span class="text-xs text-gray-500 dark:text-gray-400 mt-1 block">
+                                                {{ $displayDate }}{{ $displayDate && $fileSize ? ' · ' : '' }}{{ $fileSize }}
+                                            </span>
                                         @endif
                                     </div>
                                     
@@ -535,6 +572,7 @@
                                                     src="{{ $fileUrl }}" 
                                                     alt="{{ $fileTitle }}"
                                                     class="w-full h-auto object-contain bg-gray-100 dark:bg-gray-800"
+                                                    @if($lazyLoad) loading="lazy" @endif
                                                 />
                                                 @break
                                             
@@ -658,6 +696,7 @@
                                                                         src="{{ $fileUrl }}" 
                                                                         alt="{{ $fileTitle }}"
                                                                         class="w-full h-auto object-contain bg-gray-100 dark:bg-gray-800"
+                                                                        @if($lazyLoad) loading="lazy" @endif
                                                                     />
                                                                     @break
                                                                 
@@ -752,7 +791,7 @@
                     @endif
                 @endforeach
             </div>
-        @else
+        @elseif(!$loadingSkeleton)
             <div class="fi-in-file-placeholder text-gray-500 dark:text-gray-400 text-sm">
                 {{ $getPlaceholder() ?? __('No file') }}
             </div>

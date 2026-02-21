@@ -191,3 +191,64 @@ it('can enable contained explicitly', function () {
 
     expect($entry->isContained())->toBeTrue();
 });
+
+it('has default lazyLoad set to false', function () {
+    $entry = FileViewEntry::make('files');
+
+    expect($entry->shouldLazyLoad())->toBeFalse();
+});
+
+it('can enable lazyLoad', function () {
+    $entry = FileViewEntry::make('files')
+        ->lazyLoad(true);
+
+    expect($entry->shouldLazyLoad())->toBeTrue();
+});
+
+it('has default showFileSize set to false', function () {
+    $entry = FileViewEntry::make('files');
+
+    expect($entry->shouldShowFileSize())->toBeFalse();
+});
+
+it('can enable showFileSize', function () {
+    $entry = FileViewEntry::make('files')
+        ->showFileSize(true);
+
+    expect($entry->shouldShowFileSize())->toBeTrue();
+});
+
+it('has default showFileCount set to false', function () {
+    $entry = FileViewEntry::make('files');
+
+    expect($entry->shouldShowFileCount())->toBeFalse();
+});
+
+it('can enable showFileCount', function () {
+    $entry = FileViewEntry::make('files')
+        ->showFileCount(true);
+
+    expect($entry->shouldShowFileCount())->toBeTrue();
+});
+
+it('has default loadingSkeleton set to false', function () {
+    $entry = FileViewEntry::make('files');
+
+    expect($entry->shouldShowLoadingSkeleton())->toBeFalse();
+});
+
+it('can enable loadingSkeleton', function () {
+    $entry = FileViewEntry::make('files')
+        ->loadingSkeleton(true);
+
+    expect($entry->shouldShowLoadingSkeleton())->toBeTrue();
+});
+
+it('can format file size', function () {
+    $entry = FileViewEntry::make('files');
+
+    expect($entry->formatFileSize(0))->toBe('0 B')
+        ->and($entry->formatFileSize(1024))->toBe('1 KB')
+        ->and($entry->formatFileSize(1024 * 1024))->toBe('1 MB')
+        ->and($entry->formatFileSize(1024 * 1024 * 1024))->toBe('1 GB');
+});

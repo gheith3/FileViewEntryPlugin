@@ -18,6 +18,14 @@ class FileViewEntry extends Entry
 
     protected bool|Closure $contained = true;
 
+    protected bool|Closure $lazyLoad = false;
+
+    protected bool|Closure $showFileSize = false;
+
+    protected bool|Closure $showFileCount = false;
+
+    protected bool|Closure $loadingSkeleton = false;
+
     protected bool|Closure $downloadable = false;
 
     protected int|string|Closure|null $previewHeight = null;
@@ -56,6 +64,34 @@ class FileViewEntry extends Entry
     public function contained(bool|Closure $condition = true): static
     {
         $this->contained = $condition;
+
+        return $this;
+    }
+
+    public function lazyLoad(bool|Closure $condition = true): static
+    {
+        $this->lazyLoad = $condition;
+
+        return $this;
+    }
+
+    public function showFileSize(bool|Closure $condition = true): static
+    {
+        $this->showFileSize = $condition;
+
+        return $this;
+    }
+
+    public function showFileCount(bool|Closure $condition = true): static
+    {
+        $this->showFileCount = $condition;
+
+        return $this;
+    }
+
+    public function loadingSkeleton(bool|Closure $condition = true): static
+    {
+        $this->loadingSkeleton = $condition;
 
         return $this;
     }
@@ -127,6 +163,26 @@ class FileViewEntry extends Entry
     public function isContained(): bool
     {
         return (bool) $this->evaluate($this->contained);
+    }
+
+    public function shouldLazyLoad(): bool
+    {
+        return (bool) $this->evaluate($this->lazyLoad);
+    }
+
+    public function shouldShowFileSize(): bool
+    {
+        return (bool) $this->evaluate($this->showFileSize);
+    }
+
+    public function shouldShowFileCount(): bool
+    {
+        return (bool) $this->evaluate($this->showFileCount);
+    }
+
+    public function shouldShowLoadingSkeleton(): bool
+    {
+        return (bool) $this->evaluate($this->loadingSkeleton);
     }
 
     public function isDownloadable(): bool
@@ -236,5 +292,29 @@ class FileViewEntry extends Entry
             'archive' => 'heroicon-o-archive-box',
             default => 'heroicon-o-document',
         };
+    }
+
+    public function getFileSize(string $path): ?string
+    {
+        try {
+            $size = Storage::disk($this->getDiskName())->size($path);
+
+            return $this->formatFileSize($size);
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    public function formatFileSize(int $bytes): string
+    {
+        $units = ['B', 'KB', 'MB', 'GB', 'TB'];
+        $unitIndex = 0;
+
+        while ($bytes >= 1024 && $unitIndex < count($units) - 1) {
+            $bytes /= 1024;
+            $unitIndex++;
+        }
+
+        return round($bytes, 2) . ' ' . $units[$unitIndex];
     }
 }

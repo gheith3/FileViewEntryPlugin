@@ -96,6 +96,10 @@ FileViewEntry::make('documents')
 | `withModalEye(bool $enabled)`         | Add eye button for modal preview when asModal(false) |
 | `showAsLink(bool $enabled)`          | Show as compact list (default: false)   |
 | `contained(bool $enabled)`           | Show background/border (default: true)  |
+| `lazyLoad(bool $enabled)`            | Lazy load images (default: false)       |
+| `showFileSize(bool $enabled)`        | Show file size (default: false)         |
+| `showFileCount(bool $enabled)`       | Show file count badge (default: false)  |
+| `loadingSkeleton(bool $enabled)`     | Show loading skeleton (default: false)  |
 | `disk(string $disk)`                 | Storage disk name                       |
 | `downloadable(bool $enabled)`        | Show download button                    |
 | `previewHeight(int\|string $height)` | Modal height (default: 300px)           |
@@ -198,6 +202,44 @@ FileViewEntry::make('attachments')
 ```
 
 This is useful when you want a cleaner look or when nesting inside other containers.
+
+### Additional Features
+
+#### Lazy Loading Images
+Improve page performance by lazy loading images:
+
+```php
+FileViewEntry::make('attachments')
+    ->lazyLoad(true)           // Enable lazy loading for images
+    ->grid(4);
+```
+
+#### Show File Size
+Display file size next to the filename:
+
+```php
+FileViewEntry::make('attachments')
+    ->showFileSize(true)       // Show file size (e.g., "2.5 MB")
+    ->grid(4);
+```
+
+#### File Count Badge
+Show a badge with the total number of files:
+
+```php
+FileViewEntry::make('attachments')
+    ->showFileCount(true)      // Show "3 files" badge
+    ->grid(4);
+```
+
+#### Loading Skeleton
+Show skeleton placeholders while files are loading:
+
+```php
+FileViewEntry::make('attachments')
+    ->loadingSkeleton(true)    // Show loading skeleton
+    ->grid(4);
+```
 
 ## Customization
 
