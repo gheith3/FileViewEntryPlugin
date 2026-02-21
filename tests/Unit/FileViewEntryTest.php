@@ -36,20 +36,11 @@ it('has default keys', function () {
 
 it('can set and get preview options', function () {
     $entry = FileViewEntry::make('files')
-        ->showPreview()
         ->downloadable()
         ->previewHeight('500px');
 
-    expect($entry->shouldShowPreview())->toBeTrue()
-        ->and($entry->isDownloadable())->toBeTrue()
+    expect($entry->isDownloadable())->toBeTrue()
         ->and($entry->getPreviewHeight())->toBe('500px');
-});
-
-it('can disable preview', function () {
-    $entry = FileViewEntry::make('files')
-        ->showPreview(false);
-
-    expect($entry->shouldShowPreview())->toBeFalse();
 });
 
 it('can set and get disk', function () {

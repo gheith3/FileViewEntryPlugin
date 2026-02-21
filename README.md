@@ -98,8 +98,8 @@ FileViewEntry::make('documents')
 | `asModal(bool $enabled)`             | Show content in modal (default: true)   |
 | `withModalEye(bool $enabled)`         | Add eye button for modal preview when asModal(false) |
 | `disk(string $disk)`                 | Storage disk name                       |
-| `showPreview(bool $enabled)`         | Enable/disable modal preview            |
 | `downloadable(bool $enabled)`        | Show download button                    |
+| `showAsLink(bool $enabled)`          | Show as simple link (no preview)        |
 | `previewHeight(int\|string $height)` | Modal height (default: 300px)           |
 
 ### Grid Columns Reference
@@ -152,7 +152,6 @@ FileViewEntry::make('customData')
 // Show files directly on the page instead of in a modal
 FileViewEntry::make('attachments')
     ->asModal(false)           // Display content inline
-    ->showPreview()            // Still show the content
     ->downloadable()
     ->grid(2);
 ```
@@ -165,7 +164,6 @@ When using `asModal(false)`, you can add an eye button that opens a modal previe
 FileViewEntry::make('attachments')
     ->asModal(false)           // Display content inline
     ->withModalEye(true)       // Add eye button for modal preview
-    ->showPreview()
     ->downloadable()
     ->grid(2);
 ```

@@ -5,7 +5,6 @@
     @php
         $state = $getState();
         $showAsLink = $shouldShowAsLink();
-        $showPreview = $shouldShowPreview();
         $asModal = $shouldShowAsModal();
         $withModalEye = $shouldShowWithModalEye();
         $downloadable = $isDownloadable();
@@ -100,8 +99,29 @@
                     @endphp
                     
                     @if($fileUrl)
-                        @if($canPreview && $showPreview)
-                            @if($asModal)
+                        @if($showAsLink)
+                            {{-- Click opens new tab (no preview) --}}
+                            <a 
+                                href="{{ $fileUrl }}"
+                                target="_blank"
+                                class="group block"
+                            >
+                                <div class="w-full aspect-square p-4 rounded-2xl bg-gray-50 dark:bg-gray-800 hover:bg-primary-50 dark:hover:bg-primary-900/20 border border-gray-200 dark:border-gray-700 hover:border-primary-200 dark:hover:border-primary-800 transition-all flex flex-col items-center justify-center text-center">
+                                    {{-- Icon at top --}}
+                                    <div class="flex-1 flex items-center justify-center">
+                                        @svg($fileIcon, 'w-12 h-12 text-gray-400 group-hover:text-primary-500')
+                                    </div>
+                                    
+                                    {{-- Filename --}}
+                                    <span class="text-sm font-medium text-gray-900 dark:text-white truncate w-full mt-2">{{ $fileTitle }}</span>
+                                    
+                                    @if($displayDate)
+                                        {{-- Date --}}
+                                        <span class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ $displayDate }}</span>
+                                    @endif
+                                </div>
+                            </a>
+                        @elseif($asModal)
                                 {{-- Click opens modal --}}
                                 <div 
                                     x-data="{ open: false }"
@@ -274,12 +294,12 @@
                                     </div>
                                 </div>
                             </div>
-                            @else
-                                {{-- Show content directly inline --}}
-                                <div 
-                                    @if($withModalEye && $canPreview) x-data="{ open: false }" @endif
-                                    class="w-full rounded-2xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 overflow-hidden"
-                                >
+                        @else
+                            {{-- Show content directly inline --}}
+                            <div 
+                                @if($withModalEye && $canPreview) x-data="{ open: false }" @endif
+                                class="w-full rounded-2xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 overflow-hidden"
+                            >
                                     {{-- Title header --}}
                                     <div class="px-4 py-3 border-b border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-700">
                                         <div class="flex items-center justify-between">
@@ -530,29 +550,6 @@
                                     @endif
                                 </div>
                             @endif
-                        @else
-                            {{-- Click opens new tab (no preview available) --}}
-                            <a 
-                                href="{{ $fileUrl }}"
-                                target="_blank"
-                                class="group block"
-                            >
-                                <div class="w-full aspect-square p-4 rounded-2xl bg-gray-50 dark:bg-gray-800 hover:bg-primary-50 dark:hover:bg-primary-900/20 border border-gray-200 dark:border-gray-700 hover:border-primary-200 dark:hover:border-primary-800 transition-all flex flex-col items-center justify-center text-center">
-                                    {{-- Icon at top --}}
-                                    <div class="flex-1 flex items-center justify-center">
-                                        @svg($fileIcon, 'w-12 h-12 text-gray-400 group-hover:text-primary-500')
-                                    </div>
-                                    
-                                    {{-- Filename --}}
-                                    <span class="text-sm font-medium text-gray-900 dark:text-white truncate w-full mt-2">{{ $fileTitle }}</span>
-                                    
-                                    @if($displayDate)
-                                        {{-- Date --}}
-                                        <span class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ $displayDate }}</span>
-                                    @endif
-                                </div>
-                            </a>
-                        @endif
                     @else
                         <div class="w-full aspect-square p-4 rounded-2xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 flex flex-col items-center justify-center text-center">
                             @svg('heroicon-o-document', 'w-12 h-12 text-danger-500 mb-2')

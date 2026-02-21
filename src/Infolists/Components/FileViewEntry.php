@@ -12,8 +12,6 @@ class FileViewEntry extends Entry
 
     protected bool|Closure $showAsLink = false;
 
-    protected bool|Closure $showPreview = true;
-
     protected bool|Closure $asModal = true;
 
     protected bool|Closure $withModalEye = false;
@@ -35,13 +33,6 @@ class FileViewEntry extends Entry
     public function showAsLink(bool|Closure $condition = true): static
     {
         $this->showAsLink = $condition;
-
-        return $this;
-    }
-
-    public function showPreview(bool|Closure $condition = true): static
-    {
-        $this->showPreview = $condition;
 
         return $this;
     }
@@ -112,11 +103,6 @@ class FileViewEntry extends Entry
     public function shouldShowAsLink(): bool
     {
         return (bool) $this->evaluate($this->showAsLink);
-    }
-
-    public function shouldShowPreview(): bool
-    {
-        return (bool) $this->evaluate($this->showPreview);
     }
 
     public function shouldShowAsModal(): bool
