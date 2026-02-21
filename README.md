@@ -38,6 +38,22 @@ public function panel(Panel $panel): Panel
 }
 ```
 
+### CSS Configuration (Custom Theme)
+
+If your panel uses a **custom theme** registered in `vite.config.js`, add the following line to your theme's CSS file:
+
+```css
+@source '../../../../vendor/gheith3/filament-file-view-entry/resources/views/**/**';
+```
+
+Then recompile your assets:
+
+```bash
+npm run dev
+```
+
+> **Note:** This step is only required when using a custom Vite theme. The plugin works out of the box with Filament's default setup.
+
 ### Basic Usage
 
 ```php
