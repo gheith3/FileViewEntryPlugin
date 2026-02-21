@@ -100,6 +100,8 @@ FileViewEntry::make('documents')
 | `showFileSize(bool $enabled)`        | Show file size (default: false)         |
 | `showFileCount(bool $enabled)`       | Show file count badge (default: false)  |
 | `loadingSkeleton(bool $enabled)`     | Show loading skeleton (default: false)  |
+| `copyable(bool $enabled)`            | Add copy link button (default: false)   |
+| `customIcons(array $icons)`          | Custom icons for file types/extensions  |
 | `disk(string $disk)`                 | Storage disk name                       |
 | `downloadable(bool $enabled)`        | Show download button                    |
 | `previewHeight(int\|string $height)` | Modal height (default: 300px)           |
@@ -240,6 +242,32 @@ FileViewEntry::make('attachments')
     ->loadingSkeleton(true)    // Show loading skeleton
     ->grid(4);
 ```
+
+#### Copy Link Button
+Add a copy button to copy the file URL to clipboard:
+
+```php
+FileViewEntry::make('attachments')
+    ->copyable(true)           // Add copy link button
+    ->downloadable()
+    ->grid(4);
+```
+
+#### Custom Icons
+Override default icons for specific file types or extensions:
+
+```php
+FileViewEntry::make('attachments')
+    ->customIcons([
+        'psd' => 'heroicon-o-paint-brush',    // By extension
+        'ai' => 'heroicon-o-swatch',
+        'image' => 'heroicon-o-camera',       // By file type
+        'video' => 'heroicon-o-film',
+    ])
+    ->grid(4);
+```
+
+Extension-specific icons take precedence over file type icons.
 
 ## Customization
 

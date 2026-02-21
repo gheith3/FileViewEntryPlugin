@@ -26,6 +26,10 @@ class FileViewEntry extends Entry
 
     protected bool|Closure $loadingSkeleton = false;
 
+    protected bool|Closure $copyable = false;
+
+    protected array|Closure $customIcons = [];
+
     protected bool|Closure $downloadable = false;
 
     protected int|string|Closure|null $previewHeight = null;
@@ -92,6 +96,20 @@ class FileViewEntry extends Entry
     public function loadingSkeleton(bool|Closure $condition = true): static
     {
         $this->loadingSkeleton = $condition;
+
+        return $this;
+    }
+
+    public function copyable(bool|Closure $condition = true): static
+    {
+        $this->copyable = $condition;
+
+        return $this;
+    }
+
+    public function customIcons(array|Closure $icons): static
+    {
+        $this->customIcons = $icons;
 
         return $this;
     }
@@ -183,6 +201,16 @@ class FileViewEntry extends Entry
     public function shouldShowLoadingSkeleton(): bool
     {
         return (bool) $this->evaluate($this->loadingSkeleton);
+    }
+
+    public function isCopyable(): bool
+    {
+        return (bool) $this->evaluate($this->copyable);
+    }
+
+    public function getCustomIcons(): array
+    {
+        return (array) $this->evaluate($this->customIcons);
     }
 
     public function isDownloadable(): bool
@@ -278,8 +306,20 @@ class FileViewEntry extends Entry
         return in_array($type, ['image', 'video', 'audio', 'pdf', 'text']);
     }
 
-    public function getFileIcon(string $fileType): string
+    public function getFileIcon(string $fileType, ?string $extension = null): string
     {
+        $customIcons = $this->getCustomIcons();
+        
+        // Check for custom icon by extension first
+        if ($extension && isset($customIcons[$extension])) {
+            return $customIcons[$extension];
+        }
+        
+        // Check for custom icon by file type
+        if (isset($customIcons[$fileType])) {
+            return $customIcons[$fileType];
+        }
+        
         return match ($fileType) {
             'image' => 'heroicon-o-photo',
             'video' => 'heroicon-o-video-camera',

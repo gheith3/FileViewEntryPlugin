@@ -252,3 +252,57 @@ it('can format file size', function () {
         ->and($entry->formatFileSize(1024 * 1024))->toBe('1 MB')
         ->and($entry->formatFileSize(1024 * 1024 * 1024))->toBe('1 GB');
 });
+
+it('has default copyable set to false', function () {
+    $entry = FileViewEntry::make('files');
+
+    expect($entry->isCopyable())->toBeFalse();
+});
+
+it('can enable copyable', function () {
+    $entry = FileViewEntry::make('files')
+        ->copyable(true);
+
+    expect($entry->isCopyable())->toBeTrue();
+});
+
+it('has default customIcons as empty array', function () {
+    $entry = FileViewEntry::make('files');
+
+    expect($entry->getCustomIcons())->toBe([]);
+});
+
+it('can set custom icons by extension', function () {
+    $entry = FileViewEntry::make('files')
+        ->customIcons([
+            'psd' => 'heroicon-o-paint-brush',
+            'ai' => 'heroicon-o-swatch',
+        ]);
+
+    expect($entry->getCustomIcons())->toBe(['psd' => 'heroicon-o-paint-brush', 'ai' => 'heroicon-o-swatch'])
+        ->and($entry->getFileIcon('other', 'psd'))->toBe('heroicon-o-paint-brush')
+        ->and($entry->getFileIcon('other', 'ai'))->toBe('heroicon-o-swatch');
+});
+
+it('can set custom icons by file type', function () {
+    $entry = FileViewEntry::make('files')
+        ->customIcons([
+            'image' => 'heroicon-o-camera',
+            'video' => 'heroicon-o-film',
+        ]);
+
+    expect($entry->getFileIcon('image'))->toBe('heroicon-o-camera')
+        ->and($entry->getFileIcon('video'))->toBe('heroicon-o-film');
+});
+
+it('extension takes precedence over file type for custom icons', function () {
+    $entry = FileViewEntry::make('files')
+        ->customIcons([
+            'image' => 'heroicon-o-camera',
+            'jpg' => 'heroicon-o-sparkles',
+        ]);
+
+    // jpg is an image, but custom icon for jpg extension should take precedence
+    expect($entry->getFileIcon('image', 'jpg'))->toBe('heroicon-o-sparkles')
+        ->and($entry->getFileIcon('image', 'png'))->toBe('heroicon-o-camera');
+});

@@ -12,6 +12,7 @@
         $showFileSize = $shouldShowFileSize();
         $showFileCount = $shouldShowFileCount();
         $loadingSkeleton = $shouldShowLoadingSkeleton();
+        $copyable = $isCopyable();
         $downloadable = $isDownloadable();
         $height = $getPreviewHeight();
         $gridColumns = $getGridColumns();
@@ -73,6 +74,10 @@
         $getFileSize = function($path) use ($entry) {
             return $entry->getFileSize($path);
         };
+        
+        // Helper to get file icon
+        $getFileIcon = function($fileType, $extension = null) use ($entry) {
+            return $entry->getFileIcon($fileType, $extension);
         };
     @endphp
 
@@ -111,7 +116,8 @@
                         
                         $fileUrl = $filePath ? $getFileUrl($filePath) : null;
                         $fileType = $filePath ? $getFileType($filePath) : 'other';
-                        $fileIcon = $getFileIcon($fileType);
+                        $fileExtension = $filePath ? strtolower(pathinfo($filePath, PATHINFO_EXTENSION)) : null;
+                        $fileIcon = $getFileIcon($fileType, $fileExtension);
                         $canPreview = $filePath ? $canPreviewInBrowser($filePath) : false;
                         $fileSize = ($showFileSize && $filePath) ? $getFileSize($filePath) : null;
                         $modalId = 'file-preview-modal-' . $entry->getName() . '-' . $index;
@@ -284,6 +290,16 @@
                                                     @svg('heroicon-o-arrow-top-right-on-square', 'w-4 h-4 mr-1')
                                                     @lang('Open')
                                                 </a>
+                                                @if($copyable)
+                                                    <button
+                                                        type="button"
+                                                        class="mt-3 inline-flex w-full justify-center rounded-md bg-white dark:bg-gray-800 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-gray-100 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 sm:mt-0 sm:w-auto"
+                                                        x-on:click="navigator.clipboard.writeText('{{ $fileUrl }}'); $dispatch('notify', { message: 'Link copied!', type: 'success' })"
+                                                    >
+                                                        @svg('heroicon-o-clipboard', 'w-4 h-4 mr-1')
+                                                        @lang('Copy Link')
+                                                    </button>
+                                                @endif
                                                 @if($downloadable)
                                                     <a 
                                                         href="{{ $fileUrl }}" 
@@ -533,6 +549,16 @@
                                                 <span class="text-sm font-medium text-gray-900 dark:text-white truncate">{{ $fileTitle }}</span>
                                             </div>
                                             <div class="flex items-center gap-2 flex-shrink-0">
+                                                @if($copyable)
+                                                    <button
+                                                        type="button"
+                                                        class="text-gray-400 hover:text-primary-500"
+                                                        title="@lang('Copy link')"
+                                                        x-on:click="navigator.clipboard.writeText('{{ $fileUrl }}'); $dispatch('notify', { message: 'Link copied!', type: 'success' })"
+                                                    >
+                                                        @svg('heroicon-o-clipboard', 'w-5 h-5')
+                                                    </button>
+                                                @endif
                                                 @if($withModalEye && $canPreview)
                                                     {{-- Eye button to open modal --}}
                                                     <button
@@ -542,6 +568,16 @@
                                                         x-on:click="open = true"
                                                     >
                                                         @svg('heroicon-o-eye', 'w-5 h-5')
+                                                    </button>
+                                                @endif
+                                                @if($copyable)
+                                                    <button
+                                                        type="button"
+                                                        class="text-gray-400 hover:text-primary-500"
+                                                        title="@lang('Copy link')"
+                                                        x-on:click="navigator.clipboard.writeText('{{ $fileUrl }}'); $dispatch('notify', { message: 'Link copied!', type: 'success' })"
+                                                    >
+                                                        @svg('heroicon-o-clipboard', 'w-5 h-5')
                                                     </button>
                                                 @endif
                                                 @if($downloadable)
