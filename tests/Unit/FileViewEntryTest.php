@@ -138,3 +138,23 @@ it('can set preview height as integer', function () {
 
     expect($entry->getPreviewHeight())->toBe('400px');
 });
+
+it('has default asModal set to true', function () {
+    $entry = FileViewEntry::make('files');
+
+    expect($entry->shouldShowAsModal())->toBeTrue();
+});
+
+it('can disable asModal', function () {
+    $entry = FileViewEntry::make('files')
+        ->asModal(false);
+
+    expect($entry->shouldShowAsModal())->toBeFalse();
+});
+
+it('can enable asModal explicitly', function () {
+    $entry = FileViewEntry::make('files')
+        ->asModal(true);
+
+    expect($entry->shouldShowAsModal())->toBeTrue();
+});

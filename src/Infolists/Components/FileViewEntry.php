@@ -14,6 +14,8 @@ class FileViewEntry extends Entry
 
     protected bool|Closure $showPreview = true;
 
+    protected bool|Closure $asModal = true;
+
     protected bool|Closure $downloadable = false;
 
     protected int|string|Closure|null $previewHeight = null;
@@ -38,6 +40,13 @@ class FileViewEntry extends Entry
     public function showPreview(bool|Closure $condition = true): static
     {
         $this->showPreview = $condition;
+
+        return $this;
+    }
+
+    public function asModal(bool|Closure $condition = true): static
+    {
+        $this->asModal = $condition;
 
         return $this;
     }
@@ -99,6 +108,11 @@ class FileViewEntry extends Entry
     public function shouldShowPreview(): bool
     {
         return (bool) $this->evaluate($this->showPreview);
+    }
+
+    public function shouldShowAsModal(): bool
+    {
+        return (bool) $this->evaluate($this->asModal);
     }
 
     public function isDownloadable(): bool

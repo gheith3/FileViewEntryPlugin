@@ -95,6 +95,7 @@ FileViewEntry::make('documents')
 | `titleKey(string $key)`              | Key for file title                      |
 | `pathKey(string $key)`               | Key for file path                       |
 | `dateKey(?string $key)`              | Key for date (null to hide)             |
+| `asModal(bool $enabled)`             | Show content in modal (default: true)   |
 | `disk(string $disk)`                 | Storage disk name                       |
 | `showPreview(bool $enabled)`         | Enable/disable modal preview            |
 | `downloadable(bool $enabled)`        | Show download button                    |
@@ -141,6 +142,17 @@ $data = [
 FileViewEntry::make('customData')
     ->titleKey('title')
     ->pathKey('document_path')
+    ->grid(2);
+```
+
+### Display Content Inline (No Modal)
+
+```php
+// Show files directly on the page instead of in a modal
+FileViewEntry::make('attachments')
+    ->asModal(false)           // Display content inline
+    ->showPreview()            // Still show the content
+    ->downloadable()
     ->grid(2);
 ```
 

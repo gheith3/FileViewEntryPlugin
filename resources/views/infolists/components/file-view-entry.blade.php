@@ -6,6 +6,7 @@
         $state = $getState();
         $showAsLink = $shouldShowAsLink();
         $showPreview = $shouldShowPreview();
+        $asModal = $shouldShowAsModal();
         $downloadable = $isDownloadable();
         $height = $getPreviewHeight();
         $gridColumns = $getGridColumns();
@@ -99,30 +100,31 @@
                     
                     @if($fileUrl)
                         @if($canPreview && $showPreview)
-                            {{-- Click opens modal --}}
-                            <div 
-                                x-data="{ open: false }"
-                                class="group cursor-pointer"
-                            >
+                            @if($asModal)
+                                {{-- Click opens modal --}}
                                 <div 
-                                    class="w-full aspect-square p-4 rounded-2xl bg-gray-50 dark:bg-gray-800 hover:bg-primary-50 dark:hover:bg-primary-900/20 border border-gray-200 dark:border-gray-700 hover:border-primary-200 dark:hover:border-primary-800 transition-all flex flex-col items-center justify-center text-center"
-                                    x-on:click="open = true"
+                                    x-data="{ open: false }"
+                                    class="group cursor-pointer"
                                 >
-                                    {{-- Icon at top --}}
-                                    <div class="flex-1 flex items-center justify-center">
-                                        @svg($fileIcon, 'w-12 h-12 text-gray-400 group-hover:text-primary-500')
+                                    <div 
+                                        class="w-full aspect-square p-4 rounded-2xl bg-gray-50 dark:bg-gray-800 hover:bg-primary-50 dark:hover:bg-primary-900/20 border border-gray-200 dark:border-gray-700 hover:border-primary-200 dark:hover:border-primary-800 transition-all flex flex-col items-center justify-center text-center"
+                                        x-on:click="open = true"
+                                    >
+                                        {{-- Icon at top --}}
+                                        <div class="flex-1 flex items-center justify-center">
+                                            @svg($fileIcon, 'w-12 h-12 text-gray-400 group-hover:text-primary-500')
+                                        </div>
+                                        
+                                        {{-- Filename --}}
+                                        <span class="text-sm font-medium text-gray-900 dark:text-white truncate w-full mt-2">{{ $fileTitle }}</span>
+                                        
+                                        @if($displayDate)
+                                            {{-- Date --}}
+                                            <span class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ $displayDate }}</span>
+                                        @endif
                                     </div>
-                                    
-                                    {{-- Filename --}}
-                                    <span class="text-sm font-medium text-gray-900 dark:text-white truncate w-full mt-2">{{ $fileTitle }}</span>
-                                    
-                                    @if($displayDate)
-                                        {{-- Date --}}
-                                        <span class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ $displayDate }}</span>
-                                    @endif
-                                </div>
 
-                                {{-- Modal --}}
+                                    {{-- Modal --}}
                                 <div
                                     x-show="open"
                                     style="display: none;"
@@ -271,6 +273,106 @@
                                     </div>
                                 </div>
                             </div>
+                            @else
+                                {{-- Show content directly inline --}}
+                                <div class="w-full rounded-2xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 overflow-hidden">
+                                    {{-- Title header --}}
+                                    <div class="px-4 py-3 border-b border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-700">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center gap-2 min-w-0">
+                                                @svg($fileIcon, 'w-5 h-5 text-gray-500 flex-shrink-0')
+                                                <span class="text-sm font-medium text-gray-900 dark:text-white truncate">{{ $fileTitle }}</span>
+                                            </div>
+                                            @if($downloadable)
+                                                <a 
+                                                    href="{{ $fileUrl }}" 
+                                                    target="_blank"
+                                                    download
+                                                    class="text-gray-400 hover:text-primary-500 flex-shrink-0 ml-2"
+                                                    title="@lang('Download')"
+                                                >
+                                                    @svg('heroicon-o-arrow-down-tray', 'w-5 h-5')
+                                                </a>
+                                            @endif
+                                        </div>
+                                        @if($displayDate)
+                                            <span class="text-xs text-gray-500 dark:text-gray-400 mt-1 block">{{ $displayDate }}</span>
+                                        @endif
+                                    </div>
+                                    
+                                    {{-- Content --}}
+                                    <div class="w-full">
+                                        @switch($fileType)
+                                            @case('image')
+                                                <img 
+                                                    src="{{ $fileUrl }}" 
+                                                    alt="{{ $fileTitle }}"
+                                                    class="w-full h-auto object-contain bg-gray-100 dark:bg-gray-800"
+                                                />
+                                                @break
+                                            
+                                            @case('video')
+                                                <video 
+                                                    controls
+                                                    class="w-full bg-gray-900"
+                                                >
+                                                    <source src="{{ $fileUrl }}" type="video/{{ pathinfo($filePath, PATHINFO_EXTENSION) }}">
+                                                    @lang('Your browser does not support the video tag.')
+                                                </video>
+                                                @break
+                                            
+                                            @case('audio')
+                                                <div class="w-full p-4 bg-gray-50 dark:bg-gray-800">
+                                                    <audio controls class="w-full">
+                                                        <source src="{{ $fileUrl }}" type="audio/{{ pathinfo($filePath, PATHINFO_EXTENSION) }}">
+                                                        @lang('Your browser does not support the audio tag.')
+                                                    </audio>
+                                                </div>
+                                                @break
+                                            
+                                            @case('pdf')
+                                                <iframe 
+                                                    src="{{ $fileUrl }}" 
+                                                    class="w-full border-0"
+                                                    style="height: {{ $height }}; min-height: 400px;"
+                                                    title="{{ $fileTitle }}"
+                                                ></iframe>
+                                                @break
+                                            
+                                            @case('text')
+                                                <div class="w-full p-4 bg-gray-50 dark:bg-gray-800 overflow-auto font-mono text-sm" style="max-height: {{ $height }};">
+                                                    @php
+                                                        $disk = \Illuminate\Support\Facades\Storage::disk($getDiskName());
+                                                        $fileContent = '';
+                                                        try {
+                                                            if ($disk->exists($filePath)) {
+                                                                $fileContent = $disk->get($filePath);
+                                                            }
+                                                        } catch (\Exception $e) {
+                                                            $fileContent = 'Unable to read file content.';
+                                                        }
+                                                    @endphp
+                                                    <pre class="whitespace-pre-wrap break-words">{{ $fileContent }}</pre>
+                                                </div>
+                                                @break
+                                            
+                                            @default
+                                                <div class="w-full p-8 bg-gray-50 dark:bg-gray-800 flex flex-col items-center justify-center">
+                                                    @svg($fileIcon, 'w-16 h-16 text-gray-400 mb-4')
+                                                    <p class="text-gray-600 dark:text-gray-400">Preview not available</p>
+                                                    <a 
+                                                        href="{{ $fileUrl }}" 
+                                                        target="_blank"
+                                                        class="mt-4 inline-flex items-center text-primary-600 hover:text-primary-500"
+                                                    >
+                                                        @svg('heroicon-o-arrow-top-right-on-square', 'w-4 h-4 mr-1')
+                                                        @lang('Open File')
+                                                    </a>
+                                                </div>
+                                        @endswitch
+                                    </div>
+                                </div>
+                            @endif
                         @else
                             {{-- Click opens new tab (no preview available) --}}
                             <a 
