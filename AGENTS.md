@@ -16,6 +16,7 @@ FileViewEntryPlugin is a **Filament plugin** that provides a custom Infolist ent
 - Customizable data keys for flexible array/object structures
 
 **Package Name**: `gheith3/filament-file-view-entry`
+**Filament Versions**: ^4.0 | ^5.0
 **Main Class**: `FileViewEntry`
 
 ---
@@ -220,6 +221,6 @@ vendor/bin/pint
 ## Dependencies
 
 - PHP ^8.2|^8.3|^8.4
-- Filament ^4.0
+- Filament ^4.0|^5.0
 - Laravel ^11.0|^12.0
 - Alpine.js (included with Filament)

@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- Added support for Filament 5
 - Initial release of FileViewEntryPlugin
 - File attachment viewer for Filament Infolists
 - Type-specific icons for images, videos, audio, PDFs, and text files

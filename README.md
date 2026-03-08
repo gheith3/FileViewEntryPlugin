@@ -314,9 +314,9 @@ Edit `resources/views/vendor/file-view-entry-plugin/infolists/components/file-vi
 
 ## Requirements
 
-- PHP ^8.1
-- Laravel ^10.0 || ^11.0 || ^12.0
-- Filament ^4.0
+- PHP ^8.2
+- Laravel ^11.0 || ^12.0
+- Filament ^4.0 || ^5.0
 
 ## License
 
